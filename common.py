@@ -1,21 +1,3 @@
-
-""" This stores the current baseline of the diffs
-
-They are used to bootstrap the Slicer branch:
-
-$ python ./apply_patch
-
-This will create a "Slicer" folder that is freshly cloned from information below,
-and with all the patch applied.
-You now have the current patched Slicer sources that you can edit and test.
-
-Once you are satisfied with your 
-
-
-$ python ./generate_patch.py $GIT_REVISION ./patch
-
-"""
-
 # Baseline Slicer repository, change this when rebasing
 GIT_URL = "https://github.com/AlexyPellegrini/Slicer.git"
 GIT_REVISION = "2d798bde687300cbd0bb9f124aa24002fcb73baa"
