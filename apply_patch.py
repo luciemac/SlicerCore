@@ -22,9 +22,8 @@ def apply_patch(patch_dir: Path, dest_dir: Path, file: Path):
     """file is expected to be a relative path, it will be looked in both patch_dir and dest_dir"""
 
     if is_patch(file):
-        print(f"Patching {file}")
-        patch = (patch_dir / file).resolve().as_posix()
-        execute_process(f"git apply {patch}", dest_dir)
+        print(f"Applying patch {file}")
+        execute_process(f"git apply {(patch_dir / file).resolve().as_posix()}", dest_dir)
     else:
         src = f"{patch_dir}/{file}"
         dst = f"{dest_dir}/{file}"

@@ -27,8 +27,13 @@ jobs:
         ccache --show-config
         ccache -z
       CIBW_BUILD_FRONTEND: "pip; args: --no-build-isolation"
-      CIBW_BEFORE_BUILD: |
-        pip install scikit-build-core vtk-sdk==${{ matrix.vtk-tag }} vtk==${{ matrix.vtk-tag }} vtk-sdk-python-wheel-helper --extra-index-url https://wheels.vtk.org --extra-index-url https://vtk.org/files/wheel-sdks
+      CIBW_BEFORE_BUILD: pip install
+        scikit-build-core
+        vtk-sdk==${{ matrix.vtk-tag }}
+        vtk==${{ matrix.vtk-tag }}
+        vtk-sdk-python-wheel-helper
+        --extra-index-url https://wheels.vtk.org
+        --extra-index-url https://vtk.org/files/wheel-sdks
       CIBW_ENVIRONMENT: >-
         CCACHE_DIR=/host/.cache/ccache
         CCACHE_CONFIGPATH=/host/.config/ccache/ccache.conf
