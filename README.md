@@ -21,11 +21,16 @@ This creates a source tree: `./Slicer` that contains the patched Slicer ready to
 They are used to bootstrap the Slicer patched repository:
 
 ```sh
-python ./apply_patch
+python ./apply_patch.py
 ```
 
 This will create a "Slicer" folder that is freshly cloned from information stored in common.py,
 and with all the patch applied.
+
+Options step, change target VTK version, by default, the version is set to some value in the pyproject.toml files.
+```sh
+python ./set_vtk_version.py <desired-version>
+```
 
 ### Building SlicerCore and SlicerCoreSDK wheels
 
