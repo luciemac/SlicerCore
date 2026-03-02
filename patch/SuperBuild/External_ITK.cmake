@@ -27,13 +27,13 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
   ExternalProject_SetIfNotDefined(
     Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/ITK"
+    "${EP_GIT_PROTOCOL}://github.com/AlexyPellegrini/ITK.git"
     QUIET
     )
 
   ExternalProject_SetIfNotDefined(
     Slicer_${proj}_GIT_TAG
-    "ac65b49c34fcfa3c3422a66026c7fe2bbaa88902" # slicer-v5.4.5-2025-11-19-f51594a
+    "vtk-sdk-support" # slicer-v5.4.5-2025-11-19-f51594a
     QUIET
     )
 
