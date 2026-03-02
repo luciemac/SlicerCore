@@ -21,7 +21,6 @@ include(ExternalProjectGenerateProjectDescription)
 set(EP_GIT_PROTOCOL "https") # some clones fail with git:
 set(Slicer_BUILD_DICOM_SUPPORT "ON") # always build DICOM support
 set(Slicer_USE_TBB "ON") # always use tbb
-set(SLICERLIB_PYTHON_BUILD "TRUE") # used at some places to make changes in cmake logic
 set(Slicer_USE_SYSTEM_VTK ON) # vtk comes from vtk-sdk
 
 # Global build options
