@@ -1,0 +1,38 @@
+[build-system]
+requires = [
+  "scikit-build-core",
+  "vtk-sdk==9.6.0",
+  "vtk-sdk-python-wheel-helper",
+  "ninja",
+]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+build-dir = "../wheelbuild"
+cmake.source-dir = ".."
+cmake.args = ["-GNinja", "-DCMAKE_BUILD_TYPE=Release", "-DBUILD_SDK=OFF"]
+
+[project]
+name = "slicer-core"
+version = "5.11.0.1"
+dependencies = ["vtk==9.6.0"]
+description = "3DSlicer Core libraries as a python standalone project"
+authors = [
+  { name = "Alexy Pellegrini", email = "alexy.pellegrini@kitware.com" },
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "Apache 2.0 License" }
+keywords = ["Python", "VTK", "ITK", "3DSlicer", "Slicer", "Medical"]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Medical Science Apps",
+  "Topic :: Scientific/Engineering :: Visualization",
+  "Topic :: Software Development :: Libraries",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+]
+[project.optional-dependencies]
+test = ["pytest", "virtualenv"]

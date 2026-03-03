@@ -1,0 +1,101 @@
+name: Release
+
+on: workflow_dispatch
+
+jobs:
+  release:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-15]
+        vtk-tag: ['9.6.0']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+        include:
+          # Python version to CPython abi tag
+          - python-version: '3.10'
+            cp-tag: 'cp310'
+          - python-version: '3.11'
+            cp-tag: 'cp311'
+          - python-version: '3.12'
+            cp-tag: 'cp312'
+          - python-version: '3.13'
+            cp-tag: 'cp313'
+          # OS name to ciwheelbuild platform name
+          - os: ubuntu-latest
+            platform-tag: manylinux_x86_64
+            wheel-tag: manylinux_2_28_x86_64
+          - os: windows-latest
+            platform-tag: win_amd64
+            wheel-tag: win_amd64
+          - os: macos-15
+            platform-tag: macosx_arm64
+            wheel-tag: macosx_11_0_arm64
+    uses: ./.github/workflows/build-wheels.yml
+    with:
+      # Map the matrix variables to the reusable workflow's inputs
+      os: ${{ matrix.os }}
+      vtk-tag: ${{ matrix.vtk-tag }}
+      python-version: ${{ matrix.python-version }}
+      build-target: ${{ matrix.cp-tag }}-${{ matrix.platform-tag }}
+      wheel-tag: ${{ matrix.wheel-tag }}
+      use-cache: true
+      dry-run: true
+
+  upload-github:
+    name: Push SlicerCore release on github
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./wheelhouse
+          merge-multiple: true # Flattens them into one directory
+
+      - name: Show downloaded wheels
+        run: ls ./wheelhouse
+
+      #- name: Publish Release and Attach Wheels
+      #  uses: softprops/action-gh-release@v2
+      #  with:
+      #    generate_release_notes: true 
+      #    # Attach all the downloaded wheels to the GitHub Release page
+      #    files: ./wheelhouse/*.whl
+    
+
+  upload-pypi:
+    name: Push SlicerCore on PyPi
+    needs: release
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/slicer-core
+    permissions:
+      id-token: write # IMPORTANT: mandatory for trusted publishing
+      contents: write # IMPORTANT: mandatory for making GitHub Releases
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./wheelhouse
+          pattern: slicer_core-*
+          merge-multiple: true # Flattens them into one directory
+
+      - name: Show downloaded wheels
+        run: ls ./wheelhouse
+
+      # https://docs.pypi.org/trusted-publishers/using-a-publisher/
+      #- name: Publish package distributions to PyPI
+      #  uses: pypa/gh-action-pypi-publish@release/v1
+      #  with:
+      #      packages-dir: ./wheelhouse
