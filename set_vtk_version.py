@@ -8,11 +8,11 @@ import sys
 VERSION_PATTERN = r'([1-9][0-9]*!)?(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*((a|b|rc)(0|[1-9][0-9]*))?(\.post(0|[1-9][0-9]*))?(\.dev(0|[1-9][0-9]*))?'
 # List of package name to replace version in given file
 FILES = {
-    "vtk": Path(SLICER_DIR) / "pyproject.toml",
-    "vtk-sdk": Path(SLICER_DIR) / "pyproject.toml",
+    "vtk": Path(SLICER_DIR) / "SlicerCore" / "pyproject.toml",
+    "vtk-sdk": Path(SLICER_DIR) / "SlicerCore" / "pyproject.toml",
+    "vtk-sdk": Path(SLICER_DIR) / "SlicerCore" / "tests" / "packages" / "build_module" / "pyproject.toml",
+    "vtk-sdk": Path(SLICER_DIR) / "SlicerCore" / "tests" / "packages" / "find_package" / "pyproject.toml",
     "vtk-sdk": Path(SLICER_DIR) / "SlicerCoreSDK" / "pyproject.toml",
-    "vtk-sdk": Path(SLICER_DIR) / "SlicerCoreSDK" / "tests" / "packages" / "build_module" / "pyproject.toml",
-    "vtk-sdk": Path(SLICER_DIR) / "SlicerCoreSDK" / "tests" / "packages" / "find_package" / "pyproject.toml",
 }
 
 
