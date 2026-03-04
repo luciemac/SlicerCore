@@ -63,14 +63,16 @@ jobs:
       CIBW_TEST_REQUIRES: "pytest virtualenv"
       # Do not repair, everything is already put just as needed to make it work
       # SlicerCore uses extensive CMake logic to package everything as needed, do not try this at home!
-      CIBW_REPAIR_WHEEL_COMMAND_LINUX: "
+      CIBW_REPAIR_WHEEL_COMMAND: "
         python -m pip install wheel &&
         python -m wheel tags --platform-tag ${{ inputs.platform-tag }} --remove {wheel} &&
-        cp $(dirname {wheel})/slicer_core*.whl {dest_dir}"
-      CIBW_REPAIR_WHEEL_COMMAND_MACOS: "
-        python -m pip install wheel &&
-        python -m wheel tags --platform-tag ${{ inputs.platform-tag }} --remove {wheel} &&
-        cp $(dirname {wheel})/slicer_core*.whl {dest_dir}"
+        cp $(dirname {wheel})/slicer_core*.whl {dest_dir} &&
+        mkdir -p /tmp/test_wheelhouse &&
+        cp $(dirname {wheel})/slicer_core*.whl /tmp/test_wheelhouse"
+      CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "
+        cp ${wheel} {dest_dir} &&
+        mkdir -p $env:TEMP/test_wheelhouse &&
+        cp ${wheel} $env:TEMP/test_wheelhouse"
 
     steps:
     # Install and setup ccache on host
@@ -137,7 +139,8 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels={dest_dir} -m runtime --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels=/tmp/test_wheelhouse -m runtime --verbose"
+        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {package} --local-wheels=$env:TEMP/test_wheelhouse -m runtime --verbose"
       with:
         package-dir: Slicer/SlicerCore
         output-dir: wheelhouse
@@ -170,7 +173,8 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels={dest_dir} -m sdk --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels=/tmp/test_wheelhouse -m sdk --verbose"
+        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {package} --local-wheels=$env:TEMP/test_wheelhouse -m sdk --verbose"
       with:
         package-dir: Slicer/SlicerCoreSDK
         output-dir: wheelhouse
