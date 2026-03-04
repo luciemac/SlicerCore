@@ -60,7 +60,7 @@ jobs:
         vtk==${{ inputs.vtk-tag }}
         --extra-index-url https://wheels.vtk.org"
       # Global test setup
-      CIBW_BEFORE_TEST: "pip install pytest virtualenv"
+      CIBW_TEST_REQUIRES: "pytest virtualenv"
       # Do not repair, everything is already put just as needed to make it work
       # SlicerCore uses extensive CMake logic to package everything as needed, do not try this at home!
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: "
@@ -133,7 +133,7 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest Slicer/SlicerCore --local-wheels=wheelhouse -m runtime --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels={project}/wheelhouse -m runtime --verbose"
       with:
         package-dir: Slicer/SlicerCore
         output-dir: wheelhouse
@@ -166,7 +166,7 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest Slicer/SlicerCoreSDK --local-wheels=wheelhouse -m sdk --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels={project}/wheelhouse -m sdk --verbose"
       with:
         package-dir: Slicer/SlicerCoreSDK
         output-dir: wheelhouse
