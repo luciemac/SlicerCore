@@ -146,8 +146,8 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels=/tmp/test_wheelhouse -m runtime --verbose"
-        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {package} --local-wheels=$env:TEMP/test_wheelhouse -m runtime --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {project}/Slicer/SlicerCore --local-wheels=/tmp/test_wheelhouse -m runtime --verbose"
+        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {project}/Slicer/SlicerCore --local-wheels=$env:TEMP/test_wheelhouse -m runtime --verbose"
       with:
         package-dir: Slicer/SlicerCore
         output-dir: wheelhouse
@@ -180,8 +180,8 @@ jobs:
       if: ${{ !inputs.dry-run }}
       uses: pypa/cibuildwheel@v3.3.1
       env:
-        CIBW_TEST_COMMAND: "python -m pytest {package} --local-wheels=/tmp/test_wheelhouse -m sdk --verbose"
-        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {package} --local-wheels=$env:TEMP/test_wheelhouse -m sdk --verbose"
+        CIBW_TEST_COMMAND: "python -m pytest {project}/Slicer/SlicerCore --local-wheels=/tmp/test_wheelhouse -m sdk --verbose"
+        CIBW_TEST_COMMAND_WINDOWS: "python -m pytest {project}/Slicer/SlicerCore --local-wheels=$env:TEMP/test_wheelhouse -m sdk --verbose"
       with:
         package-dir: Slicer/SlicerCoreSDK
         output-dir: wheelhouse
