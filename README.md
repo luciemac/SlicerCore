@@ -108,6 +108,13 @@ Commit the modifications, push to a branch and create a pull request.
 
 While you may use SlicerCore as-is, it is indended to be the base of [trame-slicer](https://github.com/KitwareMedical/trame-slicer).
 
+## Deploy a new release
+
+To deploy a new release, you need to tag some commit to some version, e.g. `git tag 5.11.0.1 && git push --tags`.
+Make sure to update the version of the projects in the pyproject.toml files (SlicerCore and SlicerCoreSDK).
+
+Then go to the Actions page on the github repository, and start the "Release" workflow on your new tag.
+
 ## License
 
 Apache License, Version 2.0.
