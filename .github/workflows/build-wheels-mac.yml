@@ -29,7 +29,7 @@ jobs:
     - name: ccache config
       if: ${{ inputs.use-cache }}
       run: |
-        brew install ccache
+        brew install ccache zstd
         ccache --set-config=max_size=768Mi && ccache --set-config=compression=true
         echo "CMAKE_C_COMPILER_LAUNCHER=ccache" >> $GITHUB_ENV
         echo "CMAKE_CXX_COMPILER_LAUNCHER=ccache" >> $GITHUB_ENV
