@@ -94,7 +94,6 @@ jobs:
           generate_release_notes: true
           # Attach all the downloaded wheels to the GitHub Release page
           files: ./wheelhouse/*.whl
-    
 
   upload-pypi:
     name: Push SlicerCore on PyPi
@@ -116,6 +115,37 @@ jobs:
         with:
           path: ./wheelhouse
           pattern: slicer_core-*
+          merge-multiple: true # Flattens them into one directory
+
+      - name: Show downloaded wheels
+        run: ls ./wheelhouse
+
+      # https://docs.pypi.org/trusted-publishers/using-a-publisher/
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+            packages-dir: ./wheelhouse
+
+  upload-pypi-sdk:
+    name: Push SlicerCoreSDK on PyPi
+    needs: [release-first, release-all]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/slicer-core-sdk
+    permissions:
+      id-token: write # IMPORTANT: mandatory for trusted publishing
+      contents: write # IMPORTANT: mandatory for making GitHub Releases
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./wheelhouse
+          pattern: slicer_core_sdk-*
           merge-multiple: true # Flattens them into one directory
 
       - name: Show downloaded wheels

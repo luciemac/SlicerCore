@@ -64,7 +64,7 @@ set(classes
   vtkITKImageThresholdCalculator
   vtkITKImageWriter
   vtkITKGradientAnisotropicDiffusionImageFilter
-  #vtkITKGrowCut # Currently excluded due to being a 50Mio large object that takes 10 minutes to build
+  #vtkITKGrowCut # Currently excluded due to being a 50Mio large object that takes 10 minutes to build and consumes 10Gio of RAM
   vtkITKDistanceTransform
   vtkITKLabelShapeStatistics
   vtkITKLevelTracingImageFilter
